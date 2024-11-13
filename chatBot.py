@@ -12,7 +12,7 @@ def load_documents(pdf_path):
     loader = UnstructuredPDFLoader(pdf_path)
     documents = loader.load()
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=300,  # Reducido para obtener fragmentos más específicos
+        chunk_size=300,  
         chunk_overlap=30,
         separators=["\n\n", "\n", ". ", " ", ""]
     )
@@ -28,10 +28,10 @@ def configure_model():
         "text-generation",
         model=model,
         tokenizer=tokenizer,
-        max_new_tokens=110,  # Reducido para respuestas más concisas
-        temperature=0.3,    # Reducido para respuestas más deterministas
+        max_new_tokens=110,  
+        temperature=0.3,    
         top_p=0.9,
-        repetition_penalty=1.2,  # Evita repeticiones
+        repetition_penalty=1.2,  
         do_sample=True
     )
     return HuggingFacePipeline(pipeline=pipe)
@@ -44,7 +44,7 @@ def setup_retriever(docs):
     vectorstore = FAISS.from_documents(docs, embeddings)
     return vectorstore.as_retriever(
         search_type="similarity",
-        search_kwargs={"k": 4}  # Reducido para obtener contexto más relevante
+        search_kwargs={"k": 4}  
     )
 
 def create_prompt_template():
@@ -74,19 +74,16 @@ def build_rag_chain(retriever, llm, prompt):
     )
 
 def process_response(response):
-    """Limpia y formatea la respuesta"""
-    # Eliminar el texto del prompt si aparece en la respuesta
     if "Respuesta concisa:" in response:
         response = response.split("Respuesta concisa:")[-1]
     
-    # Limpiar la respuesta
     response = response.strip()
-    response = response.split("\n")[0]  # Tomar solo la primera línea
+    response = response.split("\n")[0] 
     
     return response
 
 def main():
-    pdf_path = "C:\\Users\\alega\\ProyectoPromtior\\ChatBot\\env\\SimulacionBDDPromtior.pdf"
+    pdf_path = "C:\\Users\\alega\\ProyectoPromtior\\ChatBot\\SimulacionBDDPromtior.pdf"
     print("Cargando documentos y configurando el modelo...")
     
     docs = load_documents(pdf_path)
