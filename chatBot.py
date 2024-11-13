@@ -84,7 +84,7 @@ def process_response(response):
 
 def main():
     pdf_path = "C:\\Users\\alega\\ProyectoPromtior\\ChatBot\\SimulacionBDDPromtior.pdf"
-    print("Cargando documentos y configurando el modelo...")
+    print("Loading documents and configuring the model...")
     
     docs = load_documents(pdf_path)
     llm = configure_model()
@@ -92,20 +92,19 @@ def main():
     prompt = create_prompt_template()
     rag_chain = build_rag_chain(retriever, llm, prompt)
     
-    print("¡Listo para responder preguntas!")
+    print("Ready to answer questions!")
     
     while True:
-        pregunta = input("\nHaz una pregunta sobre Promtior (o escribe 'salir' para terminar): ")
-        if pregunta.lower() == 'salir':
+        pregunta = input("\nAsk a question about Promtior (or type 'exit' to finish): ")
+        if pregunta.lower() == 'exit':
             break
-            
-        print("Procesando tu pregunta...")
+        print("Processing your question...")
         try:
             respuesta = rag_chain.invoke(pregunta)
             respuesta_limpia = process_response(respuesta)
-            print("\nRespuesta:", respuesta_limpia)
+            print("\nAnswer:", respuesta_limpia)
         except Exception as e:
-            print(f"\nError al procesar la pregunta: {e}")
+            print(f"\nError processing the question: {e}")
 
 if __name__ == "__main__":
     main()
