@@ -1,6 +1,8 @@
 # Usa una imagen base de Python
 FROM python:3.11-slim
 
+RUN apt-get update && apt-get install -y libgl1-mesa-glx
+
 # Instala libGL y otras dependencias de sistema necesarias para OpenCV y otros módulos
 RUN apt-get update && apt-get install -y \
     libgl1-mesa-glx \
